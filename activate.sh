@@ -644,7 +644,7 @@ handle_jetbrains_dir() {
     fi
 
     # Check if ${dir_config_product}/jetbrains_client.vmoptions exists, create default if not
-   local file_jetbrains_client="${dir_config_product}/jetbrains_client.vmoptions"
+    local file_jetbrains_client="${dir_config_product}/jetbrains_client.vmoptions"
     if [ ! -f "${file_jetbrains_client}" ]; then
         append_vmoptions "${file_jetbrains_client}"
         else

@@ -608,7 +608,7 @@ function Install-JetBrainsProduct {
     # These files in bin directory take precedence over config directory files
     $binVMOptionsPatterns = @(
         "$objProductName.exe.vmoptions",
-        "$objProductName`64.exe.vmoptions",
+        "${objProductName}64.exe.vmoptions",
         "jetbrains_client.exe.vmoptions",
         "jetbrains_client64.exe.vmoptions"
     )
