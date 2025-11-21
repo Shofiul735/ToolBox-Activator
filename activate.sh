@@ -487,7 +487,8 @@ do_download_resources() {
         ((count++))
         progress_bar "$count" "$total_files"
     done
-    echo -e "\n"
+    echo ""
+    echo ""
 }
 
 # ============ Clean and Update .vmoptions Files =============
@@ -552,14 +553,19 @@ generate_license() {
         -o "$file_license"
 
     if [ $? -eq 0 ] && [ -f "$file_license" ]; then
+        echo ""
         success "${dir_product_name} activation successful!"
+        echo ""
 
         # Show license key in terminal
         info "=== LICENSE KEY FOR ${dir_product_name} ==="
+        echo ""
         echo -e "${GREEN}"
         cat "$file_license"
         echo -e "${NC}"
+        echo ""
         info "Copy the key above and use it to activate ${dir_product_name}"
+        info "==========================================="
         echo ""
     else
         warning "${dir_product_name} requires manual license key entry!"
@@ -684,13 +690,29 @@ main() {
 
     do_download_resources
 
+    local products_processed=0
     for dir in "${dir_cache_jb}"/*; do
-        [ -d "$dir" ] && handle_jetbrains_dir "$dir"
+        if [ -d "$dir" ]; then
+            handle_jetbrains_dir "$dir"
+            ((products_processed++))
+        fi
     done
 
-    info "All items processed!"
-    info "License keys are shown above. Copy them and use for activation."
-    info "Enjoy using JetBrains IDE!"
+    echo ""
+    echo "============================================"
+    if [ $products_processed -eq 0 ]; then
+        warning "No JetBrains products found in ${dir_cache_jb}"
+        warning "Please make sure you have JetBrains IDEs installed and run them at least once."
+    else
+        success "All items processed!"
+        echo ""
+        info "IMPORTANT: License keys are displayed above in GREEN color for each product."
+        info "Look for sections marked with '=== LICENSE KEY FOR [PRODUCT] ==='"
+        info "Copy each key and paste it into the corresponding IDE activation dialog."
+        echo ""
+        info "Enjoy using JetBrains IDE!"
+    fi
+    echo "============================================"
 }
 
 main "$@"

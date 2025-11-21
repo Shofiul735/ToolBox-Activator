@@ -457,6 +457,7 @@ function Get-Resources {
         Show-ProgressBar $count $totalFiles
     }
     Write-Host ""
+    Write-Host ""
 }
 
 # ============ Clean and Update .vmoptions Files =============
@@ -533,12 +534,17 @@ function New-License {
         Invoke-RestMethod -Uri $URL_LICENSE -Method Post -Body $jsonBody -ContentType "application/json" -OutFile $licenseFile
 
         if (Test-Path $licenseFile) {
+            Write-Host ""
             Write-Success "$ProductDir activation successful!"
+            Write-Host ""
 
             # Show license key in terminal
             Write-Info "=== LICENSE KEY FOR $ProductDir ==="
+            Write-Host ""
             Write-ColoredMessage (Get-Content $licenseFile -Raw) $Colors.Green
+            Write-Host ""
             Write-Info "Copy the key above and use it to activate $ProductDir"
+            Write-Info "==========================================="
             Write-Host ""
         } else {
             Write-Warning "$ProductDir requires manual license key entry!"
@@ -699,13 +705,27 @@ function Main {
 
     # Process all JetBrains products
     $productDirs = Get-ChildItem -Path $dir_cache_jb -Directory -ErrorAction SilentlyContinue
+    $productsProcessed = 0
     foreach ($dir in $productDirs) {
         Install-JetBrainsProduct $dir.FullName
+        $productsProcessed++
     }
 
-    Write-Info "All items processed!"
-    Write-Info "License keys are shown above. Copy them and use for activation."
-    Write-Info "Enjoy using JetBrains IDE!"
+    Write-Host ""
+    Write-Host "============================================"
+    if ($productsProcessed -eq 0) {
+        Write-Warning "No JetBrains products found in $dir_cache_jb"
+        Write-Warning "Please make sure you have JetBrains IDEs installed and run them at least once."
+    } else {
+        Write-Success "All items processed!"
+        Write-Host ""
+        Write-Info "IMPORTANT: License keys are displayed above in GREEN color for each product."
+        Write-Info "Look for sections marked with '=== LICENSE KEY FOR [PRODUCT] ==='"
+        Write-Info "Copy each key and paste it into the corresponding IDE activation dialog."
+        Write-Host ""
+        Write-Info "Enjoy using JetBrains IDE!"
+    }
+    Write-Host "============================================"
 }
 
 # Run main function
