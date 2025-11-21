@@ -725,9 +725,9 @@ function Main {
         Write-Host ""
         Write-Info "TIP: Make sure you run PowerShell as Administrator"
     } elseif ($productsActivated -eq 0) {
-        Write-Error "Found $productsFound product(s) but could not activate any!"
+        Write-Warning "Found $productsFound product(s) but could not activate any!"
         Write-Host ""
-        Write-Warning "Common issues:"
+        Write-Info "Common issues and solutions:"
         Write-Warning "1. Make sure all JetBrains IDEs are completely closed"
         Write-Warning "2. Run PowerShell as Administrator (right-click -> Run as Administrator)"
         Write-Warning "3. Check that IDEs were run at least once to create configuration"

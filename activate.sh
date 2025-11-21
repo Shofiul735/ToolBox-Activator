@@ -712,9 +712,9 @@ main() {
         info "TIP: On Linux, you may need to run the script with 'sudo' permissions:"
         info "    sudo ./activate.sh"
     elif [ $products_activated -eq 0 ]; then
-        error "Found $products_found product(s) but could not activate any!"
+        warning "Found $products_found product(s) but could not activate any!"
         echo ""
-        warning "Common issues:"
+        info "Common issues and solutions:"
         warning "1. Make sure all JetBrains IDEs are completely closed"
         warning "2. On Linux, try running the script with 'sudo' permissions:"
         warning "       sudo ./activate.sh"
