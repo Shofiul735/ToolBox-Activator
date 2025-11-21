@@ -591,14 +591,14 @@ handle_jetbrains_dir() {
         fi
     done
 
-    [ -z "$obj_product_name" ] && return
+    [ -z "$obj_product_name" ] && return 1
 
     info "Processing: ${dir_product_name}"
 
     local file_home="${dir}/.home"
     [ -f "$file_home" ] || {
         warning ".home file not found for ${dir_product_name}"
-        return
+        return 1
     }
 
     debug ".home path: $file_home"
@@ -606,7 +606,7 @@ handle_jetbrains_dir() {
     local install_path=$(cat "$file_home")
     [ -d "$install_path" ] || {
         warning "Installation path not found for ${dir_product_name}!"
-        return
+        return 1
     }
 
     debug ".home content: $install_path"
@@ -614,7 +614,7 @@ handle_jetbrains_dir() {
     local dir_bin="${install_path}/bin"
     [ -d "$dir_bin" ] || {
         warning "${dir_product_name} bin directory does not exist, please confirm proper installation!"
-        return
+        return 1
     }
 
     local dir_config_product="${dir_config_jb}/${dir_product_name}"

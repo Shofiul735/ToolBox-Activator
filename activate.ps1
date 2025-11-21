@@ -574,7 +574,7 @@ function Install-JetBrainsProduct {
     }
 
     if ([string]::IsNullOrEmpty($objProductName)) {
-        return
+        return $false
     }
 
     Write-Info "Processing: $productDirName"
@@ -582,7 +582,7 @@ function Install-JetBrainsProduct {
     $homeFile = Join-Path $ProductDir ".home"
     if (-not (Test-Path $homeFile)) {
         Write-Warning ".home file not found for $productDirName"
-        return
+        return $false
     }
 
     Write-Debug ".home path: $homeFile"
@@ -590,7 +590,7 @@ function Install-JetBrainsProduct {
     $installPath = Get-Content $homeFile -Raw
     if (-not (Test-Path $installPath)) {
         Write-Warning "Installation path not found for $productDirName!"
-        return
+        return $false
     }
 
     Write-Debug ".home content: $installPath"
@@ -598,7 +598,7 @@ function Install-JetBrainsProduct {
     $binDir = Join-Path $installPath "bin"
     if (-not (Test-Path $binDir)) {
         Write-Warning "$productDirName bin directory does not exist, please confirm proper installation!"
-        return
+        return $false
     }
 
     # Check for custom config path in idea.properties
